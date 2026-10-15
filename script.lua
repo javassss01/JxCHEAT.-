@@ -1,11 +1,11 @@
 -- Target: Roblox Universal / Mobile Runtimes (Delta)
--- Description: Part 1 - Floating JXCHEAT Toggle Button, Menu Containers & Skeletal ESP Engine
+-- Description: Part 1 - JXCHEAT Floating Button, UI Containers & ESP Engine
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
-local CoreGui = game:GetService("CoreGui")
-local Camera = workspace.CurrentCamera
 local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local Camera = workspace.CurrentCamera
 
 local CFG = {
     ESPEnabled = true,
@@ -17,14 +17,14 @@ local CFG = {
     TracerColor = Color3.fromRGB(255, 30, 30),
 }
 
-if CoreGui:FindFirstChild("JXCheatGui") then
-    CoreGui.JXCheatGui:Destroy()
+if PlayerGui:FindFirstChild("JXCheatGui") then
+    PlayerGui.JXCheatGui:Destroy()
 end
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "JXCheatGui"
 ScreenGui.ResetOnSpawn = false
-ScreenGui.Parent = CoreGui
+ScreenGui.Parent = PlayerGui
 
 -- Floating Toggle Button (JXCHEAT Badge Style)
 local ToggleButton = Instance.new("TextButton")
@@ -54,7 +54,7 @@ local function create_menu(name, posX, posY)
     Frame.Position = UDim2.new(0, posX, 0, posY)
     Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
     Frame.BorderColor3 = Color3.fromRGB(60, 60, 70)
-    Frame.Visible = false -- Hidden by default, toggled via JXCHEAT floating button
+    Frame.Visible = false
     Frame.Active = true
     Frame.Draggable = true
     Frame.Parent = ScreenGui
@@ -109,7 +109,6 @@ end
 local ESPFrame, ESPContainer = create_menu("ESP Menu", 130, 90)
 local HeadshotFrame, HeadshotContainer = create_menu("Headshot Menu", 300, 90)
 
--- Toggle Menu Visibility on JXCHEAT Button Click
 local menuVisible = false
 ToggleButton.MouseButton1Click:Connect(function()
     menuVisible = not menuVisible
@@ -145,7 +144,7 @@ local drawings = {}
 
 local function safe(fn)
     local ok, err = pcall(fn)
-    if not ok then warn("[KEEL]", err) end
+    if not ok then warn("[JXCHEAT]", err) end
 end
 
 local function get_root(char)
@@ -377,4 +376,4 @@ end)
 
 Players.PlayerRemoving:Connect(remove_esp)
 
-print("[KEEL] JXCHEAT Hub Loaded Successfully")
+print("[JXCHEAT] Hub Loaded Successfully via PlayerGui")
